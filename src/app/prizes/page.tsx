@@ -20,7 +20,7 @@ function Countdown({ target }: { target: string }) {
     <div className="flex gap-3 justify-center">
       {[['Days', t.d], ['Hours', t.h], ['Mins', t.m], ['Secs', t.s]].map(([l, v]) => (
         <div key={l} className="text-center">
-          <div className="bg-white/10 rounded-xl w-14 h-14 flex items-center justify-center">
+          <div className="bg-white dark:bg-slate-900/10 rounded-xl w-14 h-14 flex items-center justify-center">
             <span className="text-2xl font-bold tabular-nums">{String(v).padStart(2, '0')}</span>
           </div>
           <div className="text-xs mt-1 opacity-60">{l}</div>
@@ -41,23 +41,23 @@ export default function PrizesPage() {
   const total = pool?.total ?? 0
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
       <main className="flex-1 overflow-auto">
         <div className="bg-slate-900 text-white px-6 py-10 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
             <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
-            <span className="text-xs text-slate-400">Monthly community draw</span>
+            <span className="text-xs text-slate-400 dark:text-slate-500">Monthly community draw</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Prize Pool</h1>
           <div className="text-6xl font-bold text-amber-400 tabular-nums mb-2">{fmtCurrency(total)}</div>
-          <p className="text-slate-400 text-sm mb-6">
+          <p className="text-slate-400 dark:text-slate-500 text-sm mb-6">
             {data?.totalEntries ?? 0} eligible entries · You have{' '}
             <strong className="text-white">{data?.myEntries ?? 0} {data?.myEntries === 1 ? 'entry' : 'entries'}</strong>
           </p>
           {pool?.drawDate && (
             <>
-              <div className="text-xs text-slate-400 mb-2 uppercase tracking-widest">Draw in</div>
+              <div className="text-xs text-slate-400 dark:text-slate-500 mb-2 uppercase tracking-widest">Draw in</div>
               <Countdown target={pool.drawDate} />
             </>
           )}
@@ -67,7 +67,7 @@ export default function PrizesPage() {
           {/* Funding sources */}
           {pool && (
             <div className="card p-5">
-              <h2 className="font-semibold text-slate-800 mb-4">How the pool is funded</h2>
+              <h2 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">How the pool is funded</h2>
               <div className="space-y-4">
                 {[
                   { label: 'Cancellation fees', amount: pool.cancellationFees, color: 'bg-red-400' },
@@ -76,7 +76,7 @@ export default function PrizesPage() {
                 ].map(src => (
                   <div key={src.label}>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-slate-600">{src.label}</span>
+                      <span className="text-slate-600 dark:text-slate-300">{src.label}</span>
                       <span className="font-semibold">{fmtCurrency(src.amount)}</span>
                     </div>
                     <div className="bg-slate-100 rounded-full h-2.5 overflow-hidden">
@@ -91,7 +91,7 @@ export default function PrizesPage() {
 
           {/* How to earn entries */}
           <div className="card p-5">
-            <h2 className="font-semibold text-slate-800 mb-4">Earn draw entries</h2>
+            <h2 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">Earn draw entries</h2>
             <div className="space-y-2">
               {[
                 { action: 'Complete a food pickup', entries: 1 },
@@ -100,9 +100,9 @@ export default function PrizesPage() {
                 { action: 'Redeem 80 Feed Points', entries: 1 },
                 { action: 'Subscribe to Standard or Enterprise', entries: 3 },
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                  <span className="text-sm text-slate-700">{item.action}</span>
-                  <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
+                <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 rounded-xl">
+                  <span className="text-sm text-slate-700 dark:text-slate-200">{item.action}</span>
+                  <span className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-2 py-1 rounded-full">
                     +{item.entries} {item.entries === 1 ? 'entry' : 'entries'}
                   </span>
                 </div>
@@ -111,9 +111,9 @@ export default function PrizesPage() {
           </div>
 
           {/* Fair draw policy */}
-          <div className="card p-5 bg-slate-50">
-            <h3 className="font-semibold text-slate-800 mb-2 text-sm">Fair draw policy</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="card p-5 bg-slate-50 dark:bg-slate-950">
+            <h3 className="font-semibold text-slate-800 dark:text-slate-100 mb-2 text-sm">Fair draw policy</h3>
+            <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
               One winner is drawn randomly each month from all eligible entries. Winners receive the prize via UPI or bank transfer within 7 business days. The pool is never funded by ZeroWaste's own revenue — 100% comes from platform activity.
             </p>
           </div>

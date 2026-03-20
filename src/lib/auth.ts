@@ -29,16 +29,21 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           role: user.role,
           businessName: user.businessName || undefined,
+          isVerified: user.isVerified,
         }
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id
         token.role = (user as any).role
         token.businessName = (user as any).businessName
+        token.isVerified = (user as any).isVerified
+      }
+      if (trigger === 'update' && session?.isVerified) {
+        token.isVerified = session.isVerified
       }
       return token
     },
@@ -47,6 +52,7 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).id = token.id
         ;(session.user as any).role = token.role
         ;(session.user as any).businessName = token.businessName
+        ;(session.user as any).isVerified = token.isVerified
       }
       return session
     },

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -32,7 +33,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center px-4 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
@@ -40,8 +44,8 @@ export default function LoginPage() {
               <span className="text-white font-bold">ZW</span>
             </div>
           </Link>
-          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-          <p className="text-sm text-slate-400 mt-1">Log in to your ZeroWaste account</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome back</h1>
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Log in to your ZeroWaste account</p>
         </div>
 
         <div className="card p-6">
@@ -71,7 +75,7 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-100 text-red-600 text-xs px-3 py-2 rounded-lg">
+              <div className="bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800/50 text-red-600 dark:text-red-400 text-xs px-3 py-2 rounded-lg">
                 {error}
               </div>
             )}
@@ -84,9 +88,9 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-slate-500 mt-5">
+        <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-5">
           No account?{' '}
-          <Link href="/auth/register" className="text-brand-600 font-medium hover:text-brand-700">Register →</Link>
+          <Link href="/auth/register" className="text-brand-600 dark:text-brand-400 font-medium hover:text-brand-700 dark:text-brand-400">Register →</Link>
         </p>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Sidebar from '@/components/ui/Sidebar'
+import VerifiedBadge from '@/components/ui/VerifiedBadge'
 import { cn, timeLeft, CATEGORIES } from '@/lib/utils'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -108,15 +109,15 @@ export default function ListingsPage() {
   const now = new Date().toISOString().slice(0, 16)
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
       <main className="flex-1 overflow-auto">
-        <div className="bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+        <div className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-slate-900">
+            <h1 className="font-bold text-slate-900 dark:text-white">
               {role === 'DONOR' ? 'My Listings' : 'Available Food'}
             </h1>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
               {role === 'DONOR' ? 'Manage your food listings' : 'Claim available listings near you'}
             </p>
           </div>
@@ -134,7 +135,7 @@ export default function ListingsPage() {
               <button key={s} onClick={() => setFilter(s)}
                 className={cn(
                   'px-3 py-1.5 rounded-full text-xs font-medium border transition-all',
-                  filter === s ? 'bg-brand-400 text-white border-brand-400' : 'border-slate-200 text-slate-500 hover:border-brand-200'
+                  filter === s ? 'bg-brand-400 text-white border-brand-400' : 'border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-brand-200 dark:border-brand-800/50'
                 )}>
                 {s.charAt(0) + s.slice(1).toLowerCase()}
               </button>
@@ -149,8 +150,8 @@ export default function ListingsPage() {
           ) : listings.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-4xl mb-3">🍱</div>
-              <h3 className="font-semibold text-slate-700 mb-1">No listings found</h3>
-              <p className="text-sm text-slate-400">
+              <h3 className="font-semibold text-slate-700 dark:text-slate-200 mb-1">No listings found</h3>
+              <p className="text-sm text-slate-400 dark:text-slate-500">
                 {role === 'DONOR' ? 'Create your first food listing above' : 'Check back soon for new listings'}
               </p>
             </div>
@@ -159,26 +160,26 @@ export default function ListingsPage() {
               {listings.map((listing: any) => (
                 <div key={listing.id} className="card p-5">
                   <div className="flex items-start gap-4">
-                    <div className="w-11 h-11 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 text-xl shrink-0">
+                    <div className="w-11 h-11 bg-brand-50 dark:bg-brand-800/30 rounded-xl flex items-center justify-center text-brand-600 dark:text-brand-400 text-xl shrink-0">
                       🍱
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2 flex-wrap">
-                        <h3 className="font-semibold text-slate-800">{listing.foodName}</h3>
+                        <h3 className="font-semibold text-slate-800 dark:text-slate-100">{listing.foodName}</h3>
                         <span className={cn('badge', STATUS_COLORS[listing.status] || 'badge-gray')}>
                           {listing.status}
                         </span>
                       </div>
 
                       {listing.description && (
-                        <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">{listing.description}</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-1">{listing.description}</p>
                       )}
 
                       <div className="flex flex-wrap gap-2 mt-2">
-                        <span className="text-xs bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded">
+                        <span className="text-xs bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">
                           {listing.quantity} {listing.unit}
                         </span>
-                        <span className="text-xs bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded">
+                        <span className="text-xs bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded">
                           {listing.category}
                         </span>
                         {listing.isVegan && <span className="badge badge-green text-[10px]">Vegan</span>}
@@ -187,19 +188,20 @@ export default function ListingsPage() {
                       </div>
 
                       <div className="flex items-center justify-between mt-3 flex-wrap gap-2">
-                        <div className="text-xs text-slate-400">
+                        <div className="text-xs text-slate-400 dark:text-slate-500">
                           📍 {listing.address} ·{' '}
                           {listing.status === 'ACTIVE'
-                            ? <span>Closes: <strong className={timeLeft(listing.pickupEnd) === 'Expired' ? 'text-red-500' : 'text-slate-600'}>{timeLeft(listing.pickupEnd)}</strong></span>
+                            ? <span>Closes: <strong className={timeLeft(listing.pickupEnd) === 'Expired' ? 'text-red-500' : 'text-slate-600 dark:text-slate-300'}>{timeLeft(listing.pickupEnd)}</strong></span>
                             : listing.status === 'COMPLETED'
-                            ? <span className="text-brand-600 font-medium">Picked up ✓</span>
+                            ? <span className="text-brand-600 dark:text-brand-400 font-medium">Picked up ✓</span>
                             : null}
                         </div>
 
                         {listing.donor && role !== 'DONOR' && (
-                          <div className="text-xs text-slate-400">
-                            By <span className="font-medium text-slate-600">{listing.donor.businessName || listing.donor.name}</span>
-                            <span className="ml-1 text-brand-600">· Trust {listing.donor.trustScore}</span>
+                          <div className="text-xs text-slate-400 dark:text-slate-500 flex items-center">
+                            By <span className="font-medium text-slate-600 dark:text-slate-300 ml-1">{listing.donor.businessName || listing.donor.name}</span>
+                            {listing.donor.isVerified && <VerifiedBadge className="w-3.5 h-3.5 ml-1 text-blue-500" />}
+                            <span className="ml-1 text-brand-600 dark:text-brand-400">· Trust {listing.donor.trustScore}</span>
                           </div>
                         )}
 
@@ -238,10 +240,10 @@ export default function ListingsPage() {
       {/* Create listing modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-y-auto max-h-[90vh] animate-fade-up">
-            <div className="flex items-center justify-between p-5 border-b border-slate-100">
-              <h2 className="font-bold text-slate-900">New food listing</h2>
-              <button onClick={() => setShowForm(false)} className="text-slate-400 hover:text-slate-600 text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+          <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-lg shadow-2xl overflow-y-auto max-h-[90vh] animate-fade-up">
+            <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800">
+              <h2 className="font-bold text-slate-900 dark:text-white">New food listing</h2>
+              <button onClick={() => setShowForm(false)} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:text-slate-300 text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
             </div>
 
             <form onSubmit={handleCreate} className="p-5 space-y-4">
@@ -317,17 +319,17 @@ export default function ListingsPage() {
                       <input type="checkbox" className="accent-brand-400"
                         checked={(form as any)[key]}
                         onChange={e => setForm({ ...form, [key]: e.target.checked })} />
-                      <span className="text-xs text-slate-600">{label}</span>
+                      <span className="text-xs text-slate-600 dark:text-slate-300">{label}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-brand-50 border border-brand-100 rounded-xl p-3">
-                <div className="text-xs font-medium text-brand-700">🎉 You'll earn +10 Feed Points for this listing</div>
+              <div className="bg-brand-50 dark:bg-brand-800/30 border border-brand-100 dark:border-brand-800/50 rounded-xl p-3">
+                <div className="text-xs font-medium text-brand-700 dark:text-brand-400">🎉 You'll earn +10 Feed Points for this listing</div>
               </div>
 
-              {error && <div className="bg-red-50 border border-red-100 text-red-600 text-xs px-3 py-2 rounded-lg">{error}</div>}
+              {error && <div className="bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800/50 text-red-600 dark:text-red-400 text-xs px-3 py-2 rounded-lg">{error}</div>}
 
               <div className="flex gap-3 pt-1">
                 <button type="button" onClick={() => setShowForm(false)} className="btn-ghost flex-1">Cancel</button>

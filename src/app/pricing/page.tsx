@@ -86,16 +86,16 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       {session && <Sidebar />}
       <main className="flex-1 overflow-auto">
         {!session && (
-          <nav className="bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+          <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-brand-400 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xs">ZW</span>
               </div>
-              <span className="font-semibold text-slate-800">ZeroWaste</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-100">ZeroWaste</span>
             </div>
             <div className="flex gap-2">
               <a href="/auth/login" className="btn-ghost text-sm">Log in</a>
@@ -106,9 +106,9 @@ export default function PricingPage() {
 
         <div className="px-4 py-12">
           <div className="text-center mb-12 max-w-xl mx-auto">
-            <p className="text-xs font-semibold text-brand-600 uppercase tracking-widest mb-2">For NGOs</p>
-            <h1 className="text-4xl font-bold text-slate-900 mb-3">Simple, transparent pricing</h1>
-            <p className="text-slate-400">First 60 days free on all plans. No credit card required. Cancel anytime.</p>
+            <p className="text-xs font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-2">For NGOs</p>
+            <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-3">Simple, transparent pricing</h1>
+            <p className="text-slate-400 dark:text-slate-500">First 60 days free on all plans. No credit card required. Cancel anytime.</p>
           </div>
 
           <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-5">
@@ -116,35 +116,35 @@ export default function PricingPage() {
               <div key={plan.key}
                 className={cn(
                   'rounded-2xl p-6 border flex flex-col',
-                  plan.hot ? 'bg-brand-400 border-brand-400' : 'bg-white border-slate-100'
+                  plan.hot ? 'bg-brand-400 border-brand-400' : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800'
                 )}>
                 {plan.hot && (
-                  <div className="text-xs bg-white/20 text-white px-2.5 py-1 rounded-full inline-block mb-3 font-medium self-start">
+                  <div className="text-xs bg-white text-brand-600 px-2.5 py-1 rounded-full inline-block mb-3 font-medium self-start">
                     Most popular
                   </div>
                 )}
 
-                <div className={cn('font-bold text-xl mb-1', plan.hot ? 'text-white' : 'text-slate-900')}>
+                <div className={cn('font-bold text-xl mb-1', plan.hot ? 'text-white' : 'text-slate-900 dark:text-white')}>
                   {plan.name}
                 </div>
-                <div className={cn('text-sm mb-4', plan.hot ? 'text-white/80' : 'text-slate-400')}>
+                <div className={cn('text-sm mb-4', plan.hot ? 'text-white/80' : 'text-slate-400 dark:text-slate-500')}>
                   {plan.desc}
                 </div>
 
                 <div className="flex items-baseline gap-1 mb-4">
-                  <span className={cn('text-4xl font-bold', plan.hot ? 'text-white' : 'text-slate-900')}>
+                  <span className={cn('text-4xl font-bold', plan.hot ? 'text-white' : 'text-slate-900 dark:text-white')}>
                     ₹{plan.price.toLocaleString('en-IN')}
                   </span>
-                  <span className={cn('text-sm', plan.hot ? 'text-white/70' : 'text-slate-400')}>/month</span>
+                  <span className={cn('text-sm', plan.hot ? 'text-white/70' : 'text-slate-400 dark:text-slate-500')}>/month</span>
                 </div>
 
-                <div className={cn('border-t mb-4', plan.hot ? 'border-white/20' : 'border-slate-100')} />
+                <div className={cn('border-t mb-4', plan.hot ? 'border-white/20' : 'border-slate-100 dark:border-slate-800')} />
 
                 <ul className="space-y-2.5 mb-6 flex-1">
                   {plan.features.map(f => (
                     <li key={f} className="flex items-start gap-2 text-sm">
                       <span className={plan.hot ? 'text-white mt-0.5' : 'text-brand-400 mt-0.5'}>✓</span>
-                      <span className={plan.hot ? 'text-white/90' : 'text-slate-600'}>{f}</span>
+                      <span className={plan.hot ? 'text-white/90' : 'text-slate-600 dark:text-slate-300'}>{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -155,8 +155,8 @@ export default function PricingPage() {
                   className={cn(
                     'w-full py-3 rounded-xl font-medium text-sm transition-all flex items-center justify-center gap-2',
                     plan.hot
-                      ? 'bg-white text-brand-600 hover:bg-brand-50 active:scale-95'
-                      : 'bg-brand-50 text-brand-700 hover:bg-brand-100 active:scale-95'
+                      ? 'bg-white text-brand-600 hover:bg-slate-50 active:scale-95'
+                      : 'bg-brand-50 dark:bg-slate-800 text-brand-700 dark:text-brand-400 hover:bg-brand-100 dark:hover:bg-slate-700 active:scale-95'
                   )}>
                   {loading === plan.key
                     ? <><div className="w-4 h-4 border-2 border-current/30 border-t-current rounded-full animate-spin" /> Subscribing...</>
@@ -169,7 +169,7 @@ export default function PricingPage() {
 
           {/* FAQ */}
           <div className="max-w-2xl mx-auto mt-16 space-y-4">
-            <h2 className="text-xl font-bold text-slate-900 text-center mb-6">Common questions</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white text-center mb-6">Common questions</h2>
             {[
               { q: 'Do I need a credit card to start?', a: 'No. First 60 days are completely free on all plans with no card required.' },
               { q: 'Can I cancel anytime?', a: 'Yes. Cancel from your profile page anytime. You keep access until the end of the billing period.' },
@@ -177,8 +177,8 @@ export default function PricingPage() {
               { q: 'Is there a discount for annual billing?', a: 'Yes — pay annually and get 2 months free. Contact us at support@zerowaste.in.' },
             ].map(({ q, a }) => (
               <div key={q} className="card p-5">
-                <div className="font-semibold text-slate-800 text-sm mb-1">{q}</div>
-                <div className="text-sm text-slate-400 leading-relaxed">{a}</div>
+                <div className="font-semibold text-slate-800 dark:text-slate-100 text-sm mb-1">{q}</div>
+                <div className="text-sm text-slate-400 dark:text-slate-500 leading-relaxed">{a}</div>
               </div>
             ))}
           </div>

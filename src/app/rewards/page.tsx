@@ -74,12 +74,12 @@ export default function RewardsPage() {
   const progress = Math.min((points / 500) * 100, 100)
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
       <main className="flex-1 overflow-auto">
-        <div className="bg-white border-b border-slate-100 px-6 py-4">
-          <h1 className="font-bold text-slate-900">Feed Points</h1>
-          <p className="text-xs text-slate-400 mt-0.5">Earn by doing good. Redeem for perks.</p>
+        <div className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-6 py-4">
+          <h1 className="font-bold text-slate-900 dark:text-white">Feed Points</h1>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Earn by doing good. Redeem for perks.</p>
         </div>
 
         <div className="p-6 max-w-2xl space-y-5">
@@ -87,19 +87,19 @@ export default function RewardsPage() {
           <div className="card p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <div className="text-xs text-slate-400 mb-1">Your balance</div>
+                <div className="text-xs text-slate-400 dark:text-slate-500 mb-1">Your balance</div>
                 <div className="text-5xl font-bold text-amber-500 tabular-nums">{points}</div>
-                <div className="text-sm text-slate-400 mt-1">Feed Points</div>
+                <div className="text-sm text-slate-400 dark:text-slate-500 mt-1">Feed Points</div>
               </div>
               <div className="text-center">
-                <div className="text-xs text-slate-400 mb-1">Tier</div>
-                <div className="bg-slate-100 text-slate-700 font-semibold px-3 py-1.5 rounded-full text-sm">
+                <div className="text-xs text-slate-400 dark:text-slate-500 mb-1">Tier</div>
+                <div className="bg-slate-100 text-slate-700 dark:text-slate-200 font-semibold px-3 py-1.5 rounded-full text-sm">
                   {points >= 500 ? 'Gold 🏆' : points >= 200 ? 'Silver' : 'Bronze'}
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-between text-xs text-slate-400 mb-1">
+            <div className="flex justify-between text-xs text-slate-400 dark:text-slate-500 mb-1">
               <span>Progress to Gold</span>
               <span>{points} / 500</span>
             </div>
@@ -108,7 +108,7 @@ export default function RewardsPage() {
             </div>
 
             {/* Streak */}
-            <div className="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
+            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
               <div className="flex gap-1">
                 {Array.from({ length: 7 }).map((_, i) => (
                   <div key={i} className={cn(
@@ -119,19 +119,19 @@ export default function RewardsPage() {
                   </div>
                 ))}
               </div>
-              <div className="text-xs text-slate-600">
+              <div className="text-xs text-slate-600 dark:text-slate-300">
                 <strong>{streak}-day streak</strong> {streak >= 7 ? '· Bonus earned!' : `· ${7 - streak} to bonus`}
               </div>
             </div>
           </div>
 
           {/* Tabs */}
-          <div className="flex border-b border-slate-100">
+          <div className="flex border-b border-slate-100 dark:border-slate-800">
             {(['earn', 'redeem', 'history'] as const).map(t => (
               <button key={t} onClick={() => setTab(t)}
                 className={cn(
                   'flex-1 py-3 text-sm font-medium transition-all border-b-2 capitalize',
-                  tab === t ? 'text-brand-600 border-brand-400' : 'text-slate-400 border-transparent hover:text-slate-600'
+                  tab === t ? 'text-brand-600 dark:text-brand-400 border-brand-400' : 'text-slate-400 dark:text-slate-500 border-transparent hover:text-slate-600 dark:text-slate-300'
                 )}>
                 {t}
               </button>
@@ -143,14 +143,14 @@ export default function RewardsPage() {
             <div className="space-y-2 animate-fade-in">
               {EARN_ACTIONS.map((item, i) => (
                 <div key={i} className="card p-4 flex items-center gap-3">
-                  <div className="w-9 h-9 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-sm shrink-0">
+                  <div className="w-9 h-9 bg-brand-50 dark:bg-brand-800/30 text-brand-600 dark:text-brand-400 rounded-xl flex items-center justify-center text-sm shrink-0">
                     {item.icon}
                   </div>
-                  <div className="flex-1 text-sm text-slate-700">{item.label}</div>
-                  <div className="text-sm font-bold text-brand-600">+{item.pts} pts</div>
+                  <div className="flex-1 text-sm text-slate-700 dark:text-slate-200">{item.label}</div>
+                  <div className="text-sm font-bold text-brand-600 dark:text-brand-400">+{item.pts} pts</div>
                 </div>
               ))}
-              <div className="bg-slate-50 rounded-xl p-3 text-xs text-slate-400 text-center border border-slate-100">
+              <div className="bg-slate-50 dark:bg-slate-950 rounded-xl p-3 text-xs text-slate-400 dark:text-slate-500 text-center border border-slate-100 dark:border-slate-800">
                 Feed Points are non-transferable and have no cash value. Platform-only perks only.
               </div>
             </div>
@@ -159,20 +159,20 @@ export default function RewardsPage() {
           {/* Redeem */}
           {tab === 'redeem' && (
             <div className="space-y-3 animate-fade-in">
-              <p className="text-xs text-slate-400">Balance: <strong className="text-amber-500">{points} pts</strong></p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Balance: <strong className="text-amber-500">{points} pts</strong></p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {REDEEM_OPTIONS.map(opt => {
                   const can = points >= opt.cost
                   return (
                     <div key={opt.key} className={cn('card p-4', !can && 'opacity-50')}>
                       <div className="flex justify-between items-start mb-2">
-                        <div className="w-8 h-8 bg-brand-50 text-brand-600 rounded-lg flex items-center justify-center">{opt.icon}</div>
-                        <span className={cn('text-xs font-bold px-2 py-0.5 rounded-full', can ? 'bg-amber-50 text-amber-700' : 'bg-slate-100 text-slate-400')}>
+                        <div className="w-8 h-8 bg-brand-50 dark:bg-brand-800/30 text-brand-600 dark:text-brand-400 rounded-lg flex items-center justify-center">{opt.icon}</div>
+                        <span className={cn('text-xs font-bold px-2 py-0.5 rounded-full', can ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400' : 'bg-slate-100 text-slate-400 dark:text-slate-500')}>
                           {opt.cost} pts
                         </span>
                       </div>
-                      <div className="text-sm font-semibold text-slate-800 mb-0.5">{opt.label}</div>
-                      <div className="text-xs text-slate-400 mb-3">{opt.desc}</div>
+                      <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-0.5">{opt.label}</div>
+                      <div className="text-xs text-slate-400 dark:text-slate-500 mb-3">{opt.desc}</div>
                       <button
                         disabled={!can || redeeming === opt.key}
                         onClick={() => redeem(opt.key, opt.cost)}
@@ -192,17 +192,17 @@ export default function RewardsPage() {
           {tab === 'history' && (
             <div className="space-y-2 animate-fade-in">
               {logs.length === 0 ? (
-                <p className="text-center text-sm text-slate-400 py-10">No points history yet</p>
+                <p className="text-center text-sm text-slate-400 dark:text-slate-500 py-10">No points history yet</p>
               ) : logs.map((log: any) => (
                 <div key={log.id} className="card p-4 flex items-center gap-3">
-                  <div className="w-8 h-8 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 text-xs shrink-0">
+                  <div className="w-8 h-8 bg-brand-50 dark:bg-brand-800/30 rounded-lg flex items-center justify-center text-brand-600 dark:text-brand-400 text-xs shrink-0">
                     {log.points > 0 ? '+' : '−'}
                   </div>
                   <div className="flex-1">
-                    <div className="text-sm text-slate-700">{log.description}</div>
-                    <div className="text-xs text-slate-400 mt-0.5">{new Date(log.createdAt).toLocaleString()}</div>
+                    <div className="text-sm text-slate-700 dark:text-slate-200">{log.description}</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{new Date(log.createdAt).toLocaleString()}</div>
                   </div>
-                  <span className={cn('text-sm font-bold', log.points > 0 ? 'text-brand-600' : 'text-red-500')}>
+                  <span className={cn('text-sm font-bold', log.points > 0 ? 'text-brand-600 dark:text-brand-400' : 'text-red-500')}>
                     {log.points > 0 ? '+' : ''}{log.points}
                   </span>
                 </div>

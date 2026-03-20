@@ -80,12 +80,12 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
       <main className="flex-1 overflow-auto">
-        <div className="bg-white border-b border-slate-100 px-6 py-4">
-          <h1 className="font-bold text-slate-900">Transaction History</h1>
-          <p className="text-xs text-slate-400 mt-0.5">All your pickups and deliveries</p>
+        <div className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-6 py-4">
+          <h1 className="font-bold text-slate-900 dark:text-white">Transaction History</h1>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">All your pickups and deliveries</p>
         </div>
 
         <div className="p-6 max-w-2xl">
@@ -96,8 +96,8 @@ export default function TransactionsPage() {
           ) : txns.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-4xl mb-3">📋</div>
-              <h3 className="font-semibold text-slate-700 mb-1">No transactions yet</h3>
-              <p className="text-sm text-slate-400">
+              <h3 className="font-semibold text-slate-700 dark:text-slate-200 mb-1">No transactions yet</h3>
+              <p className="text-sm text-slate-400 dark:text-slate-500">
                 {role === 'DONOR' ? 'Create a listing to get started' : 'Claim a listing to see your history here'}
               </p>
             </div>
@@ -111,8 +111,8 @@ export default function TransactionsPage() {
                   <div key={tx.id} className="card p-5">
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-slate-800 truncate">{tx.listing?.foodName}</h3>
-                        <p className="text-xs text-slate-400 mt-0.5">
+                        <h3 className="font-semibold text-slate-800 dark:text-slate-100 truncate">{tx.listing?.foodName}</h3>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
                           {tx.listing?.quantity} {tx.listing?.unit} · {tx.listing?.address?.split(',')[0]}
                         </p>
                       </div>
@@ -121,20 +121,20 @@ export default function TransactionsPage() {
                       </span>
                     </div>
 
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400 mb-3">
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400 dark:text-slate-500 mb-3">
                       <span>Claimed: {fmtDate(tx.claimedAt)}</span>
                       {tx.completedAt && <span>Completed: {fmtDate(tx.completedAt)}</span>}
                     </div>
 
                     {otherParty && (
-                      <div className="flex items-center justify-between bg-slate-50 rounded-xl px-3 py-2 mb-3">
-                        <div className="text-xs text-slate-500">
+                      <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 rounded-xl px-3 py-2 mb-3">
+                        <div className="text-xs text-slate-500 dark:text-slate-400">
                           {role === 'DONOR' ? 'Collected by' : 'Donated by'}:{' '}
-                          <span className="font-medium text-slate-700">
+                          <span className="font-medium text-slate-700 dark:text-slate-200">
                             {otherParty.businessName || otherParty.name}
                           </span>
                         </div>
-                        <div className="text-xs text-brand-600">Trust {otherParty.trustScore}</div>
+                        <div className="text-xs text-brand-600 dark:text-brand-400">Trust {otherParty.trustScore}</div>
                       </div>
                     )}
 
@@ -142,7 +142,7 @@ export default function TransactionsPage() {
                     {tx.ratings?.length > 0 && (
                       <div className="flex gap-1 mb-2">
                         {tx.ratings.map((r: any, i: number) => (
-                          <span key={i} className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">
+                          <span key={i} className="text-xs bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-full">
                             {'★'.repeat(r.score)} {r.comment && `· "${r.comment}"`}
                           </span>
                         ))}
@@ -152,13 +152,13 @@ export default function TransactionsPage() {
                     {canRate && (
                       <button
                         onClick={() => setRatingModal(tx)}
-                        className="text-xs text-brand-600 border border-brand-200 px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
+                        className="text-xs text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-800/50 px-3 py-1.5 rounded-lg hover:bg-brand-50 dark:bg-brand-800/30 transition-colors"
                       >
                         Rate this {role === 'DONOR' ? 'collector' : 'donor'} →
                       </button>
                     )}
                     {alreadyRated(tx) && (
-                      <span className="text-xs text-slate-400">You've rated this transaction ✓</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-500">You've rated this transaction ✓</span>
                     )}
                   </div>
                 )
@@ -170,9 +170,9 @@ export default function TransactionsPage() {
         {/* Rating modal */}
         {ratingModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 animate-fade-up">
-              <h2 className="font-bold text-slate-900 mb-1">Rate this {role === 'DONOR' ? 'collector' : 'donor'}</h2>
-              <p className="text-sm text-slate-400 mb-5">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-sm shadow-2xl p-6 animate-fade-up">
+              <h2 className="font-bold text-slate-900 dark:text-white mb-1">Rate this {role === 'DONOR' ? 'collector' : 'donor'}</h2>
+              <p className="text-sm text-slate-400 dark:text-slate-500 mb-5">
                 {ratingModal.listing?.foodName} · {fmtDate(ratingModal.claimedAt)}
               </p>
 
@@ -194,7 +194,7 @@ export default function TransactionsPage() {
               </div>
 
               {score === 5 && (
-                <div className="bg-brand-50 border border-brand-100 rounded-lg p-2 text-xs text-brand-700 mb-4 text-center">
+                <div className="bg-brand-50 dark:bg-brand-800/30 border border-brand-100 dark:border-brand-800/50 rounded-lg p-2 text-xs text-brand-700 dark:text-brand-400 mb-4 text-center">
                   🎉 5 stars! They'll earn +15 Feed Points
                 </div>
               )}
