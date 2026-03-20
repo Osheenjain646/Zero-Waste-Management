@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum Role {
+  DONOR
+  NGO
+  ADMIN
+}
+
+enum ListingStatus {
+  ACTIVE
+  CLAIMED
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  password     String
+  role         Role     @default(DONOR)
+  businessName String?
+  phone        String?
+  city         String   @default("Mumbai")
+  latitude     Float?
+  longitude    Float?
+  isVerified   Boolean  @default(false)
+  trustScore   Int      @default(80)
+  feedPoints   Int      @default(0)
+  streakDays   Int      @default(0)
+  lastActiveAt DateTime @default(now())
+  subTier      String   @default("basic")
+  subEndsAt    DateTime?
+  totalMeals   Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  listings     Listing[]      @relation("DonorListings")
+  claims       Transaction[]  @relation("CollectorTx")
+  donations    Transaction[]  @relation("DonorTx")
+  pointsLog    PointLog[]
+  ratingsGiven Rating[]       @relation("RaterRating")
+  ratingsGot   Rating[]       @relation("RatedRating")
+
+  @@map("users")
+}
+
+model Listing {
+  id           String        @id @default(cuid())
+  donorId      String
+  foodName     String
+  description  String?
+  quantity     Int
+  unit         String        @default("portions")
+  category     String        @default("Cooked Meal")
+  isVegan      Boolean       @default(false)
+  isHalal      Boolean       @default(false)
+  hasNuts      Boolean       @default(false)
+  pickupStart  DateTime
+  pickupEnd    DateTime
+  address      String
+  city         String        @default("Mumbai")
+  latitude     Float         @default(19.0760)
+  longitude    Float         @default(72.8777)
+  status       ListingStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+
+  donor        User          @relation("DonorListings", fields: [donorId], references: [id])
+  transaction  Transaction?
+  @@map("listings")
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  listingId   String   @unique
+  donorId     String
+  collectorId String
+  status      String   @default("PENDING")
+  platformFee Float    @default(0)
+  claimedAt   DateTime @default(now())
+  completedAt DateTime?
+  cancelledAt DateTime?
+  createdAt   DateTime @default(now())
+
+  listing     Listing  @relation(fields: [listingId], references: [id])
+  donor       User     @relation("DonorTx", fields: [donorId], references: [id])
+  collector   User     @relation("CollectorTx", fields: [collectorId], references: [id])
+  ratings     Rating[]
+  @@map("transactions")
+}
+
+model Rating {
+  id            String      @id @default(cuid())
+  transactionId String
+  raterId       String
+  ratedId       String
+  score         Int
+  comment       String?
+  createdAt     DateTime    @default(now())
+
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  rater         User        @relation("RaterRating", fields: [raterId], references: [id])
+  rated         User        @relation("RatedRating", fields: [ratedId], references: [id])
+  @@map("ratings")
+}
+
+model PointLog {
+  id          String   @id @default(cuid())
+  userId      String
+  points      Int
+  action      String
+  description String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id])
+  @@map("point_logs")
+}
+
+model PrizePool {
+  id               String   @id @default(cuid())
+  month            Int
+  year             Int
+  cancellationFees Float    @default(0)
+  transactionSlice Float    @default(0)
+  sponsorAmount    Float    @default(0)
+  sponsorName      String?
+  drawDate         DateTime
+  winnerId         String?
+  isDrawn          Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  @@unique([month, year])
+  @@map("prize_pools")
+}
